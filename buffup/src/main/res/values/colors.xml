@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent_background_color">#00ffffff</color>
+    <color name="white">#ffffff</color>
+
+    <color name="question_background_color">#B31B1E1E</color>
+    <color name="question_text_color">#FFFFFF</color>
+    <color name="question_text_after_answered_color">#929498</color>
+    <color name="answer_default_background_color">#C9FFFFFF</color>
+    <color name="answer_progressed_background_color">#883274C8</color>
+    <color name="answer_selected_background_color">#3274C8</color>
+    <color name="answer_text_color">#31323A</color>
+    <color name="sender_name_color">#000000</color>
+    <color name="count_down_text_color">#ffffff</color>
+    <color name="count_down_border_color">#95959580</color>
+    <color name="count_down_progress_color">#e24339</color>
+</resources>

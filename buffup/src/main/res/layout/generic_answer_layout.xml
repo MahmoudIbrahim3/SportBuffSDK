@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/margin_32"
+    android:paddingBottom="@dimen/margin_8"
+    android:background="@color/transparent_background_color">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/generic_answer_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:cardCornerRadius="200dp"
+        app:cardBackgroundColor="@color/transparent_background_color"
+        android:background="@color/transparent_background_color">
+
+        <SeekBar
+            android:id="@+id/sbAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:clickable="false"
+            android:max="100"
+            android:progressDrawable="@android:color/transparent"
+            android:thumb="@drawable/ic_generic_answer_ico"
+            android:background="@color/answer_default_background_color" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/sbAnswer"
+            app:layout_constraintTop_toTopOf="@id/sbAnswer"
+            app:layout_constraintBottom_toBottomOf="@id/sbAnswer"
+            style="@style/AnswerTextStyle"
+            tools:text="@tools:sample/lorem"
+            android:layout_gravity="center_vertical"
+            android:paddingStart="@dimen/margin_6"
+            android:paddingEnd="@dimen/margin_6"
+            android:layout_marginStart="@dimen/margin_32"/>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

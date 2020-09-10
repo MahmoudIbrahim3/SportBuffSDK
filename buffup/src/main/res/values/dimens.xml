@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_48">48dp</dimen>
+    <dimen name="margin_32">32dp</dimen>
+    <dimen name="margin_24">24dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_14">14dp</dimen>
+    <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_6">6dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
+    <dimen name="margin_2">2dp</dimen>
+
+    <dimen name="font_12">12sp</dimen>
+    <dimen name="font_14">14sp</dimen>
+    <dimen name="font_17">17sp</dimen>
+
+    <dimen name="generic_icon_radius">28dp</dimen>
+    <dimen name="generic_answer_height">32dp</dimen>
+    <dimen name="count_down_timer_radius">32dp</dimen>
+    <dimen name="question_text_length">250dp</dimen>
+
+    <dimen name="user_sender_icon_width">164dp</dimen>
+    <dimen name="user_sender_icon_height">57dp</dimen>
+    <dimen name="close_icon_width">26dp</dimen>
+</resources>

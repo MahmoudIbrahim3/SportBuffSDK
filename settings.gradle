@@ -1,0 +1,3 @@
+include ':buffup'
+include ':app'
+rootProject.name = "BuffUp"

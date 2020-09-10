@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/clRoot"
+    android:visibility="gone">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivSenderBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/ic_sender_box"
+        android:gravity="center_vertical"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivSenderImage"
+        android:layout_width="@dimen/generic_icon_radius"
+        android:layout_height="@dimen/generic_icon_radius"
+        android:layout_marginStart="@dimen/margin_12"
+        android:layout_marginTop="@dimen/margin_8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_generic_answer_ico"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSenderName"
+        style="@style/SenderNameStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/margin_8"
+        android:paddingStart="@dimen/margin_8"
+        app:layout_constraintBottom_toBottomOf="@id/ivSenderImage"
+        app:layout_constraintStart_toEndOf="@id/ivSenderImage"
+        app:layout_constraintTop_toTopOf="@id/ivSenderImage"
+        tools:text="test" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivCloseCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivSenderBox"
+        android:layout_marginTop="@dimen/margin_6"
+        app:srcCompat="@drawable/ic_btn_close"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvQuestion"
+        style="@style/QuestionTextStyle"
+        android:layout_width="@dimen/question_text_length"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/ivSenderBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivSenderImage"
+        tools:text="Lorem lorem lorem lorem Lorem lorem lorem lorem Lorem lorem lorem lorem Lorem lorem lorem lorem"
+        android:layout_marginStart="@dimen/margin_8"
+        android:layout_marginTop="@dimen/margin_8"
+        android:background="@drawable/shape_question_box_background"
+        android:paddingTop="@dimen/margin_12"
+        android:paddingBottom="@dimen/margin_12"
+        android:paddingStart="@dimen/margin_12"
+        android:paddingEnd="@dimen/margin_48"
+        />
+
+    <com.buffup.sdk.CircleProgressBar
+        android:id="@+id/pbCountDownTimer"
+        android:layout_width="@dimen/count_down_timer_radius"
+        android:layout_height="@dimen/count_down_timer_radius"
+        app:layout_constraintTop_toTopOf="@id/tvQuestion"
+        app:layout_constraintEnd_toEndOf="@id/tvQuestion"
+        android:layout_marginTop="@dimen/margin_4"
+        android:layout_marginEnd="@dimen/margin_4"
+        app:progress="35"
+        app:progressBarThickness="4dp"
+        app:progressbarColor="@color/count_down_progress_color"
+        app:backgroundColor="@color/count_down_border_color"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCountDownTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/pbCountDownTimer"
+        app:layout_constraintBottom_toBottomOf="@id/pbCountDownTimer"
+        app:layout_constraintStart_toStartOf="@id/pbCountDownTimer"
+        app:layout_constraintEnd_toEndOf="@id/pbCountDownTimer"
+        style="@style/CountDownTimerTextStyle"
+        tools:text="3"
+        android:gravity="center"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llAnswersLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_8"
+        android:layout_marginTop="@dimen/margin_8"
+        android:background="@color/transparent_background_color"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="@id/tvQuestion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvQuestion">
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+<!--    <androidx.constraintlayout.widget.Guideline-->
+<!--        android:id="@+id/guideline"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layout_constraintGuide_percent="1.0" />-->
+</androidx.constraintlayout.widget.ConstraintLayout>
