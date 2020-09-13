@@ -1,4 +1,4 @@
-package com.buffup.sdk.ui.buffup
+package com.buffup.sdk
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -6,7 +6,6 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.SeekBar
@@ -16,10 +15,11 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
-import com.buffup.sdk.R
 import com.buffup.sdk.entities.BuffsEntity
 import com.buffup.sdk.custom.CustomConstraintLayout
 import com.buffup.sdk.ui.Utils
+import com.buffup.sdk.ui.buffup.BuffUpViewModel
+import com.buffup.sdk.ui.buffup.CustomViewState
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.buff_up_layout.view.*
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +27,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.InputStream
-
 
 class BuffUpLayout(
     context: Context,

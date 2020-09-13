@@ -1,11 +1,9 @@
 package com.mahmoud.buffup
 
-import android.net.Uri
 import android.os.Bundle
 import android.widget.MediaController
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

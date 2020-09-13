@@ -25,10 +25,10 @@ class BuffUpViewModel: ViewModel(), CustomViewModel<CustomViewState> {
 
     private fun initBuffUps() {
         viewModelScope.launch {
-            delay(1000) // Start buff ups after 10 seconds.
+            delay(10000) // Start buff ups after 10 seconds.
             repeat(5) {
                 getBuffs(it + 1)
-                delay(16000) // A new buff will be shown every 30 seconds
+                delay(30000) // A new buff will be shown every 30 seconds
             }
         }
     }
