@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
@@ -15,8 +16,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
-import com.buffup.sdk.entities.BuffsEntity
 import com.buffup.sdk.custom.CustomConstraintLayout
+import com.buffup.sdk.entities.BuffsEntity
 import com.buffup.sdk.ui.Utils
 import com.buffup.sdk.ui.buffup.BuffUpViewModel
 import com.buffup.sdk.ui.buffup.CustomViewState
@@ -27,6 +28,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.InputStream
+
 
 class BuffUpLayout(
     context: Context,
@@ -55,7 +57,7 @@ class BuffUpLayout(
     }
 
     private fun initBuffsLiveData(lifecycleOwner: LifecycleOwner) {
-        viewModel.getLiveData().observe(lifecycleOwner, Observer {
+        viewModel.getBuffsLiveData().observe(lifecycleOwner, Observer {
             renderUI(it)
         })
     }

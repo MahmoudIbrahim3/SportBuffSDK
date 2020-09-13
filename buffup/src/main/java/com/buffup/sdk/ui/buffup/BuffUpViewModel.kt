@@ -13,10 +13,10 @@ import kotlinx.coroutines.*
 
 class BuffUpViewModel: ViewModel(), CustomViewModel<CustomViewState> {
     private lateinit var countDownJob: Job
-    private val liveData = MutableLiveData<BuffsEntity?>()
+    private val buffsLiveData = MutableLiveData<BuffsEntity?>()
     private val countDownTimerLiveData = MutableLiveData<Int>()
 
-    fun getLiveData() = liveData
+    fun getBuffsLiveData() = buffsLiveData
     fun getCountDownTimerLiveData() = countDownTimerLiveData
 
     init {
@@ -43,19 +43,19 @@ class BuffUpViewModel: ViewModel(), CustomViewModel<CustomViewState> {
             }
 
             if(response is ResultWrapper.Success)
-                liveData.postValue(response.value)
+                buffsLiveData.postValue(response.value)
         }
     }
 
     override var state: CustomViewState? = null
-        get() = CustomViewState(liveData.value)
+        get() = CustomViewState(buffsLiveData.value)
         set(value) {
             field = value
             restore(value)
         }
 
     private fun restore(state: CustomViewState?) {
-        liveData.value = state?.hexCode
+        buffsLiveData.value = state?.hexCode
     }
 
     fun startCountDownTimer(timeToShow: Int) {
