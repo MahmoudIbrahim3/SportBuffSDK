@@ -1,10 +1,12 @@
-package com.buffup.sdk
+package com.buffup.sdk.ui.buffup
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.SeekBar
@@ -14,10 +16,11 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
-import com.buffup.sdk.custom.BuffUpViewModel
-import com.buffup.sdk.custom.CustomViewState
+import com.buffup.sdk.R
 import com.buffup.sdk.entities.BuffsEntity
-import com.buffup.sdk.mvvm.MvvmLinearLayout
+import com.buffup.sdk.custom.CustomConstraintLayout
+import com.buffup.sdk.ui.Utils
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.buff_up_layout.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -29,10 +32,10 @@ import java.io.InputStream
 class BuffUpLayout(
     context: Context,
     attrs: AttributeSet
-): MvvmLinearLayout<CustomViewState, BuffUpViewModel>(context, attrs) {
+): CustomConstraintLayout<CustomViewState, BuffUpViewModel>(context, attrs) {
 
     private var isAnswered = false
-    private var timeToShow = 0
+    private var buffTimeToShow = 0
 
     override val viewModel = BuffUpViewModel()
 
@@ -61,8 +64,8 @@ class BuffUpLayout(
     private fun initCountDownTimerLiveData(lifecycleOwner: LifecycleOwner) {
         viewModel.getCountDownTimerLiveData().observe(lifecycleOwner, Observer {
             tvCountDownTimer.text = it.toString()
-            if(timeToShow > 0)
-                pbCountDownTimer.progress = (100 - (it * 100 / timeToShow)).toFloat()
+            if(buffTimeToShow > 0)
+                pbCountDownTimer.setProgress(100 - (it * 100 / buffTimeToShow).toFloat())
 
             if(it == 0)
                 animateBuffCardOutThenHide()
@@ -73,6 +76,9 @@ class BuffUpLayout(
         val result = data?.result
         tvSenderName.text = result?.author?.first_name
         tvQuestion.text = result?.question?.title
+        Glide.with(this)
+            .load(result?.author?.image)
+            .into(ivSenderImage)
 
         val answers = result?.answers
 
@@ -80,23 +86,26 @@ class BuffUpLayout(
             val mInflater =
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
+            resetUI()
+
+            llAnswersLayout.removeAllViews()
             for (answer in it.iterator()) {
                 val answerView = mInflater.inflate(
-                    R.layout.generic_answer_layout, null, false
-                )
+                    R.layout.generic_answer_layout, null, false)
                 llAnswersLayout.addView(answerView)
 
                 val tvAnswer = answerView.findViewById<TextView>(R.id.tvAnswer)
                 val sbAnswer = answerView.findViewById<SeekBar>(R.id.sbAnswer)
-
+                sbAnswer.isEnabled = true
                 tvAnswer.text = answer.title
-                setUpAnswerGenericIcon(answer.image.image0.url, sbAnswer)
+                
+                setUpAnswerGenericIcon(answer.image.image2.url, sbAnswer)
                 setUpSeekBar(sbAnswer, tvAnswer)
             }
         }
 
         result?.time_to_show?.let {
-            timeToShow = it
+            buffTimeToShow = it
             viewModel.startCountDownTimer(it)
         }
 
@@ -109,21 +118,20 @@ class BuffUpLayout(
                 val iStream = java.net.URL(url).content as InputStream
                 Drawable.createFromStream(iStream, "src name")
             } catch (e: Exception) {
+                e.printStackTrace()
                 null
             }
 
             image?.let {
                 withContext(Dispatchers.Main) {
-                    sbAnswer.thumb = image
+                    sbAnswer.thumb = Utils.resize(context, image,
+                        context.resources.getDimension(R.dimen.generic_icon_radius).toInt())
                 }
             }
         }
     }
 
-    private fun setUpSeekBar(
-        sbAnswer: SeekBar,
-        tvAnswer: TextView
-    ) {
+    private fun setUpSeekBar(sbAnswer: SeekBar, tvAnswer: TextView) {
         sbAnswer.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 if (seekBar.progress > 50) {
@@ -133,17 +141,15 @@ class BuffUpLayout(
                     viewModel.stopCountDownTimer()
                     hideCountDownTimer()
                     hideBuffCardAfterTwoSeconds()
-                    changeSeekBarUI(sbAnswer, tvAnswer)
+                    changeBuffUI(tvAnswer)
                 } else {
                     seekBar.progress = 0
                 }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
-            override fun onProgressChanged(
-                seekBar: SeekBar, progress: Int,
-                fromUser: Boolean
-            ) {
+
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 if(isAnswered) { // To prevent the user from answering more than one time.
                     seekBar.progress = 0
                     seekBar.isEnabled = false
@@ -159,46 +165,75 @@ class BuffUpLayout(
         tvCountDownTimer.visibility = View.INVISIBLE
     }
 
-    private fun changeSeekBarUI(sbAnswer: SeekBar, tvAnswer: TextView) {
+    private fun showCountDownTimer() {
+        pbCountDownTimer.visibility = View.VISIBLE
+        tvCountDownTimer.visibility = View.VISIBLE
+    }
+
+    private fun changeBuffUI(tvAnswer: TextView) {
         tvAnswer.setTextColor(ContextCompat.getColor(context, R.color.white))
         tvQuestion.setTextColor(ContextCompat.getColor(context,
             R.color.question_text_after_answered_color))
     }
 
+    private fun resetUI() {
+        isAnswered = false
+        tvQuestion.setTextColor(ContextCompat.getColor(context, R.color.question_text_color))
+        showCountDownTimer()
+    }
+
     private fun changeSeekBarColor(seekBar: SeekBar, tvAnswer: TextView, progress: Int) {
         when (progress) {
             0 -> {
-                seekBar.setBackgroundColor(ContextCompat.getColor(context, R.color.answer_default_background_color))
-                tvAnswer.setTextColor(ContextCompat.getColor(context, R.color.answer_text_color))
+                seekBar.setBackgroundColor(ContextCompat.getColor(context,
+                    R.color.answer_default_background_color
+                ))
+                tvAnswer.setTextColor(ContextCompat.getColor(context,
+                    R.color.answer_text_color
+                ))
             }
             in 1..99 -> {
-                seekBar.setBackgroundColor(ContextCompat.getColor(context, R.color.answer_progressed_background_color))
-                tvAnswer.setTextColor(ContextCompat.getColor(context, R.color.white))
+                seekBar.setBackgroundColor(ContextCompat.getColor(context,
+                    R.color.answer_progressed_background_color
+                ))
+                tvAnswer.setTextColor(ContextCompat.getColor(context,
+                    R.color.white
+                ))
             }
             else -> {
-                seekBar.setBackgroundColor(ContextCompat.getColor(context, R.color.answer_selected_background_color))
-                tvAnswer.setTextColor(ContextCompat.getColor(context, R.color.white))
+                seekBar.setBackgroundColor(ContextCompat.getColor(context,
+                    R.color.answer_selected_background_color
+                ))
+                tvAnswer.setTextColor(ContextCompat.getColor(context,
+                    R.color.white
+                ))
             }
         }
     }
 
     private fun animateBuffCardIn() {
-        ValueAnimator.ofFloat(-360f, 0f).apply {
-            duration = 700
+        val fadeOut = ObjectAnimator.ofFloat(clRoot, View.ALPHA, 0.0f, 1f)
+        fadeOut.duration = 300
+
+        val translateXAnimator = ValueAnimator.ofFloat(-360f, 0f).apply {
+            duration = 300
             addUpdateListener { animation ->
                 val animValue = animation.animatedValue as Float
                 clRoot.translationX = animValue
                 if(animValue == 0.0f)
                     animateSenderName()
             }
-        }.start()
+        }
+
+        val animationSet = AnimatorSet()
+        animationSet.playTogether(fadeOut, translateXAnimator)
+        animationSet.start()
     }
 
     private fun animateSenderName() {
         showCardTopViews()
-
         ValueAnimator.ofFloat(ivSenderBox.height.toFloat(), 0f).apply {
-            duration = 500
+            duration = 200
             addUpdateListener { animation ->
                 val animValue = animation.animatedValue as Float
                 ivSenderBox.translationY = animValue
@@ -217,15 +252,23 @@ class BuffUpLayout(
     }
 
     private fun animateBuffCardOutThenHide() {
-        ValueAnimator.ofFloat(0f, -360f).apply {
-            duration = 500
+        val fadeInAnimator = ObjectAnimator.ofFloat(clRoot, View.ALPHA, 1f, 0.0f)
+        fadeInAnimator.duration = 300
+
+        val translateXAnimator = ValueAnimator.ofFloat(0f, -360f).apply {
+            duration = 300
             addUpdateListener { animation ->
                 val animValue = animation.animatedValue as Float
                 clRoot.translationX = animValue
-                if(animValue == 360f)
+                if(animValue == 360f) {
                     clRoot.visibility = View.GONE
+                }
             }
-        }.start()
+        }
+
+        val animationSet = AnimatorSet()
+        animationSet.playTogether(fadeInAnimator, translateXAnimator)
+        animationSet.start()
     }
 
     private fun showBuffCard() {

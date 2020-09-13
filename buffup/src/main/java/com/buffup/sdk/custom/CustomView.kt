@@ -1,8 +1,8 @@
-package com.buffup.sdk.mvvm
+package com.buffup.sdk.custom
 
 import androidx.lifecycle.LifecycleOwner
 
-interface MvvmCustomView<V: MvvmCustomViewState, T: MvvmCustomViewModel<V>> {
+interface CustomView<V: CustomViewState, T: CustomViewModel<V>> {
     val viewModel: T
 
     fun onLifecycleOwnerAttached(lifecycleOwner: LifecycleOwner)

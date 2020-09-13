@@ -1,35 +1,45 @@
-package com.buffup.sdk.custom
+package com.buffup.sdk.ui.buffup
 
-import android.graphics.drawable.Drawable
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.buffup.sdk.BuffsApi
+import com.buffup.sdk.remote.BuffsApi
 import com.buffup.sdk.entities.BuffsEntity
-import com.buffup.sdk.mvvm.MvvmCustomViewModel
+import com.buffup.sdk.custom.CustomViewModel
 import com.buffup.sdk.remote.ResultWrapper
 import com.buffup.sdk.remote.RetrofitClientInstance
 import com.buffup.sdk.remote.networkBounceResource
 import kotlinx.coroutines.*
-import java.io.InputStream
 
-class BuffUpViewModel: ViewModel(), MvvmCustomViewModel<CustomViewState> {
+class BuffUpViewModel: ViewModel(), CustomViewModel<CustomViewState> {
     private lateinit var countDownJob: Job
     private val liveData = MutableLiveData<BuffsEntity?>()
     private val countDownTimerLiveData = MutableLiveData<Int>()
 
+    fun getLiveData() = liveData
+    fun getCountDownTimerLiveData() = countDownTimerLiveData
+
     init {
-        getBuffs()
+        initBuffUps()
     }
 
-    private fun getBuffs() {
+    private fun initBuffUps() {
+        viewModelScope.launch {
+            delay(1000) // Start buff ups after 10 seconds.
+            repeat(5) {
+                getBuffs(it + 1)
+                delay(16000) // A new buff will be shown every 30 seconds
+            }
+        }
+    }
+
+    private fun getBuffs(buffId: Int) {
         viewModelScope.launch {
             val response = networkBounceResource {
                 val buffsApi = RetrofitClientInstance
                     .retrofitInstance?.create(BuffsApi::class.java)
 
-                buffsApi?.getBuffs(1)
+                buffsApi?.getBuffs(buffId)
             }
 
             if(response is ResultWrapper.Success)
@@ -43,10 +53,6 @@ class BuffUpViewModel: ViewModel(), MvvmCustomViewModel<CustomViewState> {
             field = value
             restore(value)
         }
-
-    fun getLiveData(): LiveData<BuffsEntity?> = liveData
-
-    fun getCountDownTimerLiveData(): LiveData<Int> = countDownTimerLiveData
 
     private fun restore(state: CustomViewState?) {
         liveData.value = state?.hexCode
@@ -63,8 +69,5 @@ class BuffUpViewModel: ViewModel(), MvvmCustomViewModel<CustomViewState> {
         }
     }
 
-    fun stopCountDownTimer() {
-        countDownJob.cancel()
-    }
-
+    fun stopCountDownTimer() = countDownJob.cancel()
 }

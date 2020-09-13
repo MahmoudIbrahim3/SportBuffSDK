@@ -1,10 +1,5 @@
 package com.buffup.sdk.custom
 
-import com.buffup.sdk.entities.BuffsEntity
-import com.buffup.sdk.mvvm.MvvmCustomViewState
-import kotlinx.android.parcel.Parcelize
+import android.os.Parcelable
 
-@Parcelize
-data class CustomViewState(
-        val hexCode: BuffsEntity?
-): MvvmCustomViewState
+interface CustomViewState: Parcelable

@@ -1,3 +1,3 @@
-package com.buffup.sdk.mvvm
+package com.buffup.sdk.custom
 
 class LifecycleOwnerNotFoundException(message: String? = null): Throwable(message)

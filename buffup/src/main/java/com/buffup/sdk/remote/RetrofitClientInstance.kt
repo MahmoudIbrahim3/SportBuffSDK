@@ -8,11 +8,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClientInstance {
     private var retrofit: Retrofit? = null
     private const val BASE_URL = "http://demo2373134.mockable.io/"
+
     val retrofitInstance: Retrofit?
         get() {
             if (retrofit == null) {
                 val httpClient = OkHttpClient.Builder()
-                httpClient.addInterceptor(HttpLoggingInterceptor())
+                val logging = HttpLoggingInterceptor()
+                logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+                httpClient.addInterceptor(logging)
 
                 retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)

@@ -1,4 +1,4 @@
-package com.buffup.sdk
+package com.buffup.sdk.remote
 
 import com.buffup.sdk.entities.BuffsEntity
 import retrofit2.http.GET

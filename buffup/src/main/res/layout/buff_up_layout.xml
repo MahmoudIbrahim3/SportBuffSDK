@@ -67,7 +67,7 @@
         android:paddingEnd="@dimen/margin_48"
         />
 
-    <com.buffup.sdk.CircleProgressBar
+    <com.buffup.sdk.ui.buffup.CircleProgressBar
         android:id="@+id/pbCountDownTimer"
         android:layout_width="@dimen/count_down_timer_radius"
         android:layout_height="@dimen/count_down_timer_radius"
