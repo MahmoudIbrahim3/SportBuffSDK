@@ -14,7 +14,7 @@ allprojects {
 - Add the dependency to your app build.gradle file.
 ```
 dependencies {
-    implementation 'com.github.MahmoudIbrahim3:SportBuffSDK:1.0.0'
+    implementation 'com.github.MahmoudIbrahim3:SportBuffSDK:1.0.1'
 }
 ```
 
