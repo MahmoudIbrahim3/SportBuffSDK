@@ -18,20 +18,20 @@ dependencies {
 }
 ```
 
-
 - Rebuild your project.
 
-- To add Buff Up layout to your layout
+- Add Buff Up layout to your layout
 ```
 <com.buffup.sdk.BuffUpLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"/>
 ```
 
-- Finally, run your project and you will see the buff up appears like this over your video.
-![Buff](buffup/1.jpeg)
+- Finally, run your project and you will see the buff up appears over your video like this:
 
-![Buff](buffup/2.jpeg)
+![Image1](buffup/1.jpeg)
+
+![Image2](buffup/2.jpeg)
 
 
 
