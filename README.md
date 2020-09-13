@@ -29,8 +29,9 @@ dependencies {
 ```
 
 - Finally, run your project and you will see the buff up appears like this over your video.
-![Buff](1.jpeg)
-![Buff](2.jpeg)
+![Buff](buffup/1.jpeg)
+
+![Buff](buffup/2.jpeg)
 
 
 
